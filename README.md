@@ -1,2 +1,2 @@
-# mobile_android_tutorials
+# Mobile Android Tutorials
 Mobile android tutorials and courses
