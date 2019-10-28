@@ -1,20 +1,22 @@
+// herencia
+open class Organism(val name: String) {
+    // bloque de inicializacion
+    init {
+        print("Born!\n")
+    }
+}
+
+
 // clase y constructor primario
-class Person(var name: String) {
+class Person(name: String): Organism(name) {
     
     // constructor secundario
     constructor(name: String, lastName: String): this(name) {
         
     }
     
-    // bloque de inicializacion
-    init {
-        print("Born!
-")
-    }
-    
     fun greeting() {
-        print("Hello world, my name is " + name + "
-")
+        print("Hello world, my name is " + name + "\n")
     }
     
 }
