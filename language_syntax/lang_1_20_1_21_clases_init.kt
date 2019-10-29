@@ -39,8 +39,10 @@ class Plant(name: String): Organism(name) {
 }
 
 fun main(args: Array<String>) {
-    val john: Person = Person("John", "Johnson")
+    // lambda
+    val greeting: (String) -> Unit = { name ->
+        print("Hello " + name)                                    
+    }
     
-    print(john.greeting("Brian"))
-    john.eat()
+    greeting.invoke("John")
 }

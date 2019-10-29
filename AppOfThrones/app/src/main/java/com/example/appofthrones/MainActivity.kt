@@ -15,10 +15,8 @@ class MainActivity : AppCompatActivity() {
 
         val button: Button = findViewById(R.id.button)
 
-        button.setOnClickListener(object: View.OnClickListener {
-            override fun onClick(p0: View?) {
-                Toast.makeText(this@MainActivity, "Winter is coming!", Toast.LENGTH_SHORT).show()
-            }
-        })
+        button.setOnClickListener {
+            Toast.makeText(this@MainActivity, "Winter is coming!", Toast.LENGTH_SHORT).show()
+        }
     }
 }
