@@ -4,6 +4,10 @@ open class Organism(val name: String) {
     init {
         print("Born!\n")
     }
+    
+    open fun eat() {
+        print("Yummy!\n")
+    }
 }
 
 
@@ -15,15 +19,28 @@ class Person(name: String): Organism(name) {
         
     }
     
-    fun greeting() {
-        print("Hello world, my name is " + name + "\n")
+    fun greeting(to: String): String {
+        return "Hello " + to + ",my name is " + name + "\n"
     }
     
+    // sobreescritura metodos
+    override fun eat() {
+        super.eat()
+        print("Veggie food!\n")
+    }
+    
+}
+
+class Plant(name: String): Organism(name) {
+    // sobreescritura metodos
+    override fun eat() {
+        print("Phtosyntesis!\n")
+    }
 }
 
 fun main(args: Array<String>) {
     val john: Person = Person("John", "Johnson")
     
-    john.greeting()
-    print(john.name)
+    print(john.greeting("Brian"))
+    john.eat()
 }
