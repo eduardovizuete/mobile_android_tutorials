@@ -1,17 +1,17 @@
 package com.example.appofthrones
 
 object CharactersRepo {
-    var characters: MutableList<Character> = mutableListOf()
+    val characters: MutableList<Character> = mutableListOf()
+        get() {
+            if (field.isEmpty()) {
+                field.addAll(dummyCharacters())
+            }
+
+            return field
+        }
 
     private fun dummyCharacters(): MutableList<Character> {
-        // operadores funcionales
-        /*val dummies: MutableList<Character> = (1..10).map { index ->
-            intToCharacter(index)
-        }.toMutableList()
-
-        return dummies*/
-
-        // opcion corta operador funcional
+        // operador funcional
         return (1..10).map {
             intToCharacter(it)
         }.toMutableList()

@@ -12,6 +12,9 @@ class CharactersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_characters)
+
+        val characters: MutableList<Character> = CharactersRepo.characters
+        Log.i("CharactersActivity", "${characters.size}")
     }
 
     fun showDetails(button: View) {
