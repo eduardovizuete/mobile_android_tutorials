@@ -16,7 +16,9 @@ class CharactersActivity : AppCompatActivity() {
         setContentView(R.layout.activity_characters)
 
         val list: RecyclerView = findViewById(R.id.list)
-        val adapter: CharactersAdapter = CharactersAdapter()
+        val adapter = CharactersAdapter() { item, position ->
+            showDetails()
+        }
 
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = adapter
@@ -25,7 +27,7 @@ class CharactersActivity : AppCompatActivity() {
         adapter.setCharacters(characters)
     }
 
-    fun showDetails(button: View) {
+    fun showDetails() {
         Log.d("CharactersActivity", "Click is working")
         val intent: Intent = Intent(this, DetailActivity::class.java)
         startActivity(intent)
