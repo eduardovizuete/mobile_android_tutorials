@@ -4,28 +4,34 @@ object CharactersRepo {
     var characters: MutableList<Character> = mutableListOf()
 
     private fun dummyCharacters(): MutableList<Character> {
-        val dummies: MutableList<Character> = mutableListOf()
+        // operadores funcionales
+        /*val dummies: MutableList<Character> = (1..10).map { index ->
+            intToCharacter(index)
+        }.toMutableList()
 
-        for (index in 1 ..10) {
-            val character: Character = Character(
-                name = "Personaje ${index}",
-                title =  "Título ${index}",
-                born =  "Nació en ${index}",
-                actor = "Actor ${index}",
-                quote = "Actor ${index}",
-                father = "Frase ${index}",
-                mother = "Madre ${index}",
-                spouse = "Espos@ ${index}",
-                house = House(
-                    name = "Casa ${index}",
-                    region = "Región ${index}",
-                    words = "Lema ${index}"
-                )
+        return dummies*/
+
+        // opcion corta operador funcional
+        return (1..10).map {
+            intToCharacter(it)
+        }.toMutableList()
+    }
+
+    private fun intToCharacter(int: Int): Character {
+        return Character(
+            name = "Personaje ${int}",
+            title = "Título ${int}",
+            born = "Nació en ${int}",
+            actor = "Actor ${int}",
+            quote = "Actor ${int}",
+            father = "Frase ${int}",
+            mother = "Madre ${int}",
+            spouse = "Espos@ ${int}",
+            house = House(
+                name = "Casa ${int}",
+                region = "Región ${int}",
+                words = "Lema ${int}"
             )
-
-            dummies.add(character)
-        }
-
-        return dummies
+        )
     }
 }
