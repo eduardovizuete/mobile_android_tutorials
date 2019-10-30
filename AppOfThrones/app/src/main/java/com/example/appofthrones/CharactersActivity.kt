@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class CharactersActivity : AppCompatActivity() {
 
@@ -13,8 +15,14 @@ class CharactersActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_characters)
 
+        val list: RecyclerView = findViewById(R.id.list)
+        val adapter: CharactersAdapter = CharactersAdapter()
+
+        list.layoutManager = LinearLayoutManager(this)
+        list.adapter = adapter
+
         val characters: MutableList<Character> = CharactersRepo.characters
-        Log.i("CharactersActivity", "${characters.size}")
+        adapter.setCharacters(characters)
     }
 
     fun showDetails(button: View) {
