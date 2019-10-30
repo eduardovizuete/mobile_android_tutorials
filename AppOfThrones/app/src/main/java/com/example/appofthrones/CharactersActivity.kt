@@ -3,28 +3,35 @@ package com.example.appofthrones
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class CharactersActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_characters)
-
+    val list: RecyclerView by lazy {
         val list: RecyclerView = findViewById(R.id.list)
-        val adapter = CharactersAdapter() { item, position ->
+        list.layoutManager = LinearLayoutManager(this)
+
+        list
+    }
+
+    val adapter: CharactersAdapter by lazy {
+        val adapter = CharactersAdapter { item, position ->
             showDetails()
         }
 
-        list.layoutManager = LinearLayoutManager(this)
-        list.adapter = adapter
+        adapter
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_characters)
 
         val characters: MutableList<Character> = CharactersRepo.characters
         adapter.setCharacters(characters)
+
+        list.adapter = adapter
     }
 
     fun showDetails() {
