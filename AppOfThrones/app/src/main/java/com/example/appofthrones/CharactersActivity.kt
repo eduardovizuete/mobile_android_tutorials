@@ -18,7 +18,7 @@ class CharactersActivity : AppCompatActivity() {
 
     val adapter: CharactersAdapter by lazy {
         val adapter = CharactersAdapter { item, position ->
-            showDetails()
+            showDetails(item.id)
         }
 
         adapter
@@ -34,9 +34,10 @@ class CharactersActivity : AppCompatActivity() {
         list.adapter = adapter
     }
 
-    fun showDetails() {
-        Log.d("CharactersActivity", "Click is working")
+    fun showDetails(characterId: String) {
         val intent: Intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("key_id", characterId)
+
         startActivity(intent)
     }
 }
