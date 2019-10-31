@@ -11,9 +11,9 @@ class CharactersActivity : AppCompatActivity(), CharactersFragment.OnItemClickLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters)
 
-        val fragment = CharactersFragment()
-
         if (savedInstanceState == null) {
+            val fragment = CharactersFragment()
+
             this.supportFragmentManager
                 .beginTransaction()
                 .add(R.id.listContainer, fragment)
@@ -33,12 +33,7 @@ class CharactersActivity : AppCompatActivity(), CharactersFragment.OnItemClickLi
     private fun isDetailAvailable() = detailContainer != null
 
     private fun showFragmentDetails(characterId: String) {
-        val detailFragment = DetailFragment()
-
-        var args = Bundle()
-        args.putString("key_id", characterId)
-
-        detailFragment.arguments = args
+        val detailFragment = DetailFragment.newInstance(characterId)
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.detailContainer, detailFragment)
