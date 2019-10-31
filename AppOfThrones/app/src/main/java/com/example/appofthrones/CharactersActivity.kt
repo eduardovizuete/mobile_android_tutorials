@@ -1,10 +1,11 @@
 package com.example.appofthrones
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_characters.*
 
-class CharactersActivity : AppCompatActivity() {
+class CharactersActivity : AppCompatActivity(), CharactersFragment.OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,25 +21,35 @@ class CharactersActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onItemClicked(character: Character) {
+        if (isDetailAvailable()) {
+            showFragmentDetails(character.id)
+        } else {
+            lauchDetailActivity(character.id)
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
+    // funcion inline
+    private fun isDetailAvailable() = detailContainer != null
+
+    private fun showFragmentDetails(characterId: String) {
+        val detailFragment = DetailFragment()
+
+        var args = Bundle()
+        args.putString("key_id", characterId)
+
+        detailFragment.arguments = args
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.detailContainer, detailFragment)
+            .commit()
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
+    private fun lauchDetailActivity(characterId: String) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("key_id", characterId)
 
-    override fun onStop() {
-        super.onStop()
+        startActivity(intent)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
 }
 
