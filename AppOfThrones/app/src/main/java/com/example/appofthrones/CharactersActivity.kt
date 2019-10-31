@@ -1,44 +1,44 @@
 package com.example.appofthrones
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_characters.*
 
 class CharactersActivity : AppCompatActivity() {
-
-    val list: RecyclerView by lazy {
-        val list: RecyclerView = findViewById(R.id.list)
-        list.layoutManager = LinearLayoutManager(this)
-
-        list
-    }
-
-    val adapter: CharactersAdapter by lazy {
-        val adapter = CharactersAdapter { item, position ->
-            showDetails(item.id)
-        }
-
-        adapter
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters)
 
-        val characters: MutableList<Character> = CharactersRepo.characters
-        adapter.setCharacters(characters)
+        val fragment = CharactersFragment()
 
-        list.adapter = adapter
+        if (savedInstanceState == null) {
+            this.supportFragmentManager
+                .beginTransaction()
+                .add(R.id.listContainer, fragment)
+                .commit()
+        }
     }
 
-    fun showDetails(characterId: String) {
-        val intent: Intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra("key_id", characterId)
-
-        startActivity(intent)
+    override fun onStart() {
+        super.onStart()
     }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
 }
 
