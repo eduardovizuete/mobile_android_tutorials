@@ -1,5 +1,7 @@
 package com.example.appofthrones
 
+import kotlin.random.Random
+
 object CharactersRepo {
     val characters: MutableList<Character> = mutableListOf()
         get() {
@@ -33,11 +35,14 @@ object CharactersRepo {
             father = "Frase ${int}",
             mother = "Madre ${int}",
             spouse = "Espos@ ${int}",
-            house = House(
-                name = "Casa ${int}",
-                region = "Región ${int}",
-                words = "Lema ${int}"
-            )
+            house = dummyHouse()
         )
+    }
+
+    private fun dummyHouse(): House {
+        val ids = arrayOf("stark", "lannister", "tyrell", "arryn", "martell", "baratheon", "greyjoy", "frey", "tully")
+        val randomIdPosition =  Random.nextInt(ids.size)
+
+        return House(name = ids[randomIdPosition], region = "Region", words = "Lema")
     }
 }
