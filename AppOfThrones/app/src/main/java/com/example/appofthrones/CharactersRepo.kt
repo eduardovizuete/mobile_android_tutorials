@@ -31,8 +31,8 @@ object CharactersRepo {
             title = "Título ${int}",
             born = "Nació en ${int}",
             actor = "Actor ${int}",
-            quote = "Actor ${int}",
-            father = "Frase ${int}",
+            quote = "Frase ${int}",
+            father = "Padre ${int}",
             mother = "Madre ${int}",
             spouse = "Espos@ ${int}",
             house = dummyHouse()

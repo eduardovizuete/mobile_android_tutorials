@@ -25,26 +25,39 @@ data class House(
 
         private val DEFAULT_PALETTE = arrayOf(R.color.starkOverlay, R.color.starkBase)
 
-        private val colors = mapOf(
-            Pair("stark", arrayOf(R.color.starkOverlay, R.color.starkBase)),
-            Pair("lannister", arrayOf(R.color.lannisterOverlay, R.color.lannisterBase)),
-            Pair("tyrell", arrayOf(R.color.tyrellOverlay, R.color.tyrellBase)),
-            Pair("arryn", arrayOf(R.color.arrynOverlay, R.color.arrynBase)),
-            Pair("martell", arrayOf(R.color.martellOverlay, R.color.martellBase)),
-            Pair("baratheon", arrayOf(R.color.baratheonOverlay, R.color.baratheonBase)),
-            Pair("greyjoy", arrayOf(R.color.greyjoyOverlay, R.color.greyjoyBase)),
-            Pair("frey", arrayOf(R.color.freyOverlay, R.color.freyBase)),
-            Pair("tully", arrayOf(R.color.tullyOverlay, R.color.tullyBase))
+        private val resources = mapOf(
+            Pair("stark", arrayOf(R.color.starkOverlay, R.color.starkBase, R.drawable.ic_stark)),
+            Pair("lannister", arrayOf(R.color.lannisterOverlay, R.color.lannisterBase, R.drawable.ic_lannister)),
+            Pair("tyrell", arrayOf(R.color.tyrellOverlay, R.color.tyrellBase, R.drawable.ic_tyrell)),
+            Pair("arryn", arrayOf(R.color.arrynOverlay, R.color.arrynBase, R.drawable.ic_arryn)),
+            Pair("martell", arrayOf(R.color.martellOverlay, R.color.martellBase, R.drawable.ic_martell)),
+            Pair("baratheon", arrayOf(R.color.baratheonOverlay, R.color.baratheonBase, R.drawable.ic_baratheon)),
+            Pair("greyjoy", arrayOf(R.color.greyjoyOverlay, R.color.greyjoyBase, R.drawable.ic_greyjoy)),
+            Pair("frey", arrayOf(R.color.freyOverlay, R.color.freyBase, R.drawable.ic_frey)),
+            Pair("tully", arrayOf(R.color.tullyOverlay, R.color.tullyBase, R.drawable.ic_tully))
         )
 
         fun getOverlayColor(houseId: String): Int {
-            val palette: Array<Int> = colors.getOrDefault(houseId, DEFAULT_PALETTE)
+            val palette = getPalette(houseId)
             return palette[0]
         }
 
         fun getBaseColor(houseId: String): Int {
-            val palette: Array<Int> = colors.getOrDefault(houseId, DEFAULT_PALETTE)
+            val palette = getPalette(houseId)
             return palette[1]
+        }
+
+        fun getIcon(houseId: String): Int {
+            val palette = getPalette(houseId)
+            return palette[2]
+        }
+
+        private fun getPalette(houseId: String) : Array<Int> {
+            val palette = resources[houseId]
+
+            // El operador elvis "?:" significa:
+            // Si el valor del lado izquierdo es null, devuleve el valor del lado derecho
+            return palette ?: DEFAULT_PALETTE
         }
     }
 }

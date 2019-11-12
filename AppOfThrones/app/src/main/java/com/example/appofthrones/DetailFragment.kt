@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_detail.*
 
@@ -48,12 +49,21 @@ class DetailFragment : Fragment() {
                 labelParents.text =  "${father} & ${mother}"
                 labelQuote.text = quote
                 labelSpouse.text = spouse
-                button.text = house.name
+
+                val overlayColor = House.getOverlayColor(house.name)
+                imgOverlay.background = ContextCompat.getDrawable(context!!, overlayColor)
+
+                val baseColor = House.getBaseColor(house.name)
+                btnHouse.backgroundTintList = ContextCompat.getColorStateList(context!!, baseColor)
+
+                val idDrawable = House.getIcon(house.name)
+                val drawable = ContextCompat.getDrawable(context!!, idDrawable)
+                btnHouse.setImageDrawable(drawable)
             }
 
         }
 
-        button.setOnClickListener {
+        btnHouse.setOnClickListener {
             Toast.makeText(context, character?.house?.words, Toast.LENGTH_SHORT).show()
         }
 
