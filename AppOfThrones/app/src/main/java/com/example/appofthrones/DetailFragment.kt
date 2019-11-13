@@ -68,12 +68,18 @@ class DetailFragment : Fragment() {
                     .placeholder(R.drawable.test)
                     .into(imgCharacter)
             }
-
         }
 
         btnHouse.setOnClickListener {
-            Toast.makeText(context, character?.house?.words, Toast.LENGTH_SHORT).show()
+            if (character != null) {
+                showDialog(character.house)
+            }
         }
-
     }
+
+    private fun showDialog(house: House) {
+        val dialog = HouseDialog.newInstance(house)
+        dialog.show(childFragmentManager, "house_dialog")
+    }
+
 }
