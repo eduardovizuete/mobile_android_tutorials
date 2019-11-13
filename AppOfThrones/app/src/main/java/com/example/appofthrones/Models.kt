@@ -12,13 +12,15 @@ data class Character(
     var father: String,
     var mother: String,
     var spouse: String,
+    var img: String,
     var house: House
 )
 
 data class House(
     var name: String,
     var region: String,
-    var words: String
+    var words: String,
+    var img: String
 ) {
 
     companion object {
@@ -30,6 +32,7 @@ data class House(
             Pair("lannister", arrayOf(R.color.lannisterOverlay, R.color.lannisterBase, R.drawable.ic_lannister)),
             Pair("tyrell", arrayOf(R.color.tyrellOverlay, R.color.tyrellBase, R.drawable.ic_tyrell)),
             Pair("arryn", arrayOf(R.color.arrynOverlay, R.color.arrynBase, R.drawable.ic_arryn)),
+            Pair("targaryen", arrayOf(R.color.targaryenOverlay, R.color.targaryenBase, R.drawable.ic_targaryen)),
             Pair("martell", arrayOf(R.color.martellOverlay, R.color.martellBase, R.drawable.ic_martell)),
             Pair("baratheon", arrayOf(R.color.baratheonOverlay, R.color.baratheonBase, R.drawable.ic_baratheon)),
             Pair("greyjoy", arrayOf(R.color.greyjoyOverlay, R.color.greyjoyBase, R.drawable.ic_greyjoy)),

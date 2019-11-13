@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.data_character.*
 import kotlinx.android.synthetic.main.header_character.*
+import kotlinx.android.synthetic.main.item_character.view.*
 
 class DetailFragment : Fragment() {
 
@@ -60,6 +62,11 @@ class DetailFragment : Fragment() {
                 val idDrawable = House.getIcon(house.name)
                 val drawable = ContextCompat.getDrawable(context!!, idDrawable)
                 btnHouse.setImageDrawable(drawable)
+
+                Picasso.get()
+                    .load(img)
+                    .placeholder(R.drawable.test)
+                    .into(imgCharacter)
             }
 
         }
