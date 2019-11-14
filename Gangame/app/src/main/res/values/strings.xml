@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Gangame</string>
+    <string name="title_top_rated">Top rated</string>
+    <string name="title_most_owned">Most owned</string>
+    <string name="deals">Deals</string>
 </resources>
