@@ -13,7 +13,7 @@ abstract class BaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(getLayoutResId(), container, false)
+        val view = container?.inflate(getLayoutResId())
         return view
     }
 
