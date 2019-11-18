@@ -1,12 +1,12 @@
-package com.example.gangame.rated
+package com.example.gangame.owned
 
 import com.example.commons.BaseFragment
 import com.example.gangame.R
 
-class TopRatedFragment : BaseFragment() {
+class MostOwnedFragment : BaseFragment() {
 
     override fun getLayoutResId(): Int {
-        return R.layout.fragment_top_rated
+        return R.layout.fragment_top_owned
     }
 
 }
