@@ -3,6 +3,9 @@ package com.example.myapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Message
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -13,9 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val textView: TextView = findViewById(R.id.textView)
-        textView.text = "Kotlin"
-        toast("Hello ${textView.text}, how are you")
+        val editText: EditText = findViewById(R.id.message)
+        val button: Button = findViewById(R.id.button)
+
+        button.setOnClickListener { toast("Hello ${editText.text}")}
     }
 
     fun toast(message: String): Unit {
