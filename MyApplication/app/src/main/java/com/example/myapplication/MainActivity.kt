@@ -3,6 +3,7 @@ package com.example.myapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Message
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -10,7 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Logger {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,11 +20,25 @@ class MainActivity : AppCompatActivity() {
         val editText: EditText = findViewById(R.id.message)
         val button: Button = findViewById(R.id.button)
 
-        button.setOnClickListener { toast("Hello ${editText.text}")}
+        button.setOnClickListener {
+            toast("Hello ${editText.text}")
+        }
+
+        d("Hello")
     }
 
-    fun toast(message: String): Unit {
+    private fun toast(message: String): Unit {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
+}
+
+// interfaces can store state
+interface Logger {
+
+    val tag: String
+        get() = javaClass.simpleName
+
+    fun d(message: String) = Log.d(tag, message)
 
 }
