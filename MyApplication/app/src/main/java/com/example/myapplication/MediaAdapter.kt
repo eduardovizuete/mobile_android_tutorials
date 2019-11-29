@@ -3,10 +3,10 @@ package com.example.myapplication
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.util.zip.Inflater
-
-class MediaItem
+import com.squareup.picasso.Picasso
 
 class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
@@ -27,9 +27,17 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
 
     // Provide a reference to the views for each data item
     // Each data item is an MediaItem.
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: MediaItem) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        val title = view.findViewById<TextView>(R.id.media_title)
+        val image = view.findViewById<ImageView>(R.id.image)
+
+        fun bind(item: MediaItem) {
+            title.text = item.title
+            Picasso
+                .with(image.context)
+                .load(item.thumbUrl)
+                .into(image)
         }
     }
 
