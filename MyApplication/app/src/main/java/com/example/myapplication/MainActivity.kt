@@ -17,13 +17,6 @@ class MainActivity : AppCompatActivity(), Logger {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val editText: EditText = findViewById(R.id.message)
-        val button: Button = findViewById(R.id.button)
-
-        button.setOnClickListener {
-            toast("Hello ${editText.text}")
-        }
-
         d("Hello")
     }
 
