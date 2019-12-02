@@ -12,7 +12,8 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.view_media_item, parent, false)
+        //val v = LayoutInflater.from(parent.context).inflate(R.layout.view_media_item, parent, false)
+        val v = parent.inflate(R.layout.view_media_item)
         return ViewHolder(v)
     }
 
@@ -34,10 +35,7 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
 
         fun bind(item: MediaItem) {
             title.text = item.title
-            Picasso
-                .with(image.context)
-                .load(item.thumbUrl)
-                .into(image)
+            image.loadUrl(item.thumbUrl)
         }
     }
 
