@@ -1,12 +1,11 @@
 package com.example.myapplication
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.view_media_item.view.*
 
 class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
@@ -30,14 +29,10 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
     // Each data item is an MediaItem.
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val title = find<TextView>(R.id.media_title)
-        val image = find<ImageView>(R.id.image)
-        val videoIndicator = find<ImageView>(R.id.media_video_indicator)
-
         fun bind(item: MediaItem) {
-            title.text = item.title
-            image.loadUrl(item.thumbUrl)
-            videoIndicator.visibility = when (item.type) {
+            itemView.media_title.text = item.title
+            itemView.media_thumb.loadUrl(item.thumbUrl)
+            itemView.media_video_indicator.visibility = when (item.type) {
                 MediaItem.Type.VIDEO -> View.VISIBLE
                 MediaItem.Type.PHOTO -> View.GONE
             }
