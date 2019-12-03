@@ -11,8 +11,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         toast("Hello")
-        toast("Hello", Toast.LENGTH_LONG)
-        applicationContext.toast("Message")
     }
 
 }

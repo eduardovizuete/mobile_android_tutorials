@@ -30,8 +30,9 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
     // Each data item is an MediaItem.
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val title = view.findViewById<TextView>(R.id.media_title)
-        val image = view.findViewById<ImageView>(R.id.image)
+        //val title = view.findViewById<TextView>(R.id.media_title)
+        val title = find<TextView>(R.id.media_title)
+        val image = find<ImageView>(R.id.image)
 
         fun bind(item: MediaItem) {
             title.text = item.title
