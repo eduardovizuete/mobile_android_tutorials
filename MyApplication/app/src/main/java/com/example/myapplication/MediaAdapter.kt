@@ -7,7 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_media_item.view.*
 
-class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
+class MediaAdapter(val items: List<MediaItem>, val listener: OnMediaClickListener) :
+    RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
+
+    interface OnMediaClickListener {
+        fun onClick(mediaItem: MediaItem)
+    }
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -19,7 +24,9 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
     // Replace the contents of a view (invoked by the layout manager)
     // Bind the content of the view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        val item = items[position]
+        holder.bind(item)
+        holder.itemView.setOnClickListener { listener.onClick(item) }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -1,10 +1,44 @@
 package com.example.myapplication
 
-data class Person(val name: String, val age: Int)
+fun test() {
+    val sum: (Int, Int) -> Int = { a, b -> a + b }
+    val f1 = { a: Int, b: Int -> a + b }
+    applyOp(2, 3, sum) // 5
 
-fun test(list: List<Person>) {
-    for ((name, age) in list) {
-        print(name)
-        print(age)
-    }
+    val mul = { a: Int, b: Int -> a * b }
+    applyOp(2, 3, mul) // 6
+
+    applyOp(2, 3) { first, second -> first - second }
 }
+
+fun applyOp(x: Int, y: Int, f: (Int, Int) -> Int): Int = f(x, y)
+
+
+// example callback with interfaces
+interface Callback {
+    fun onCallback(result: String)
+}
+
+fun doAsync(x: Int, callback: Callback) {
+    // background
+    callback.onCallback("finished")
+}
+
+fun testMainInterfaceCallback() {
+    doAsync(20, object : Callback {
+        override fun onCallback(result: String) {
+            print(result)
+        }
+    })
+}
+
+// example callback with lambdas
+fun doAsyncLambda(x: Int, callback: (String) -> Unit) {
+    // background
+    callback("finished")
+}
+
+fun testMainLambdaCallback() {
+    doAsyncLambda(20) { result -> print(result) }
+}
+
