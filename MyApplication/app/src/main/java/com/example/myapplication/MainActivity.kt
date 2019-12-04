@@ -9,11 +9,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        recycler.adapter = MediaAdapter(getMedia(), object: MediaAdapter.OnMediaClickListener{
-            override fun onClick(mediaItem: MediaItem) {
-                print("ok click")
-            }
-        })
+        recycler.adapter = MediaAdapter(getMedia()) { mediaItem -> toast(mediaItem.title) }
     }
 
 }
