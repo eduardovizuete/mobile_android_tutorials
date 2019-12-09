@@ -42,3 +42,14 @@ fun testMainLambdaCallback() {
     doAsyncLambda(20) { result -> print(result) }
 }
 
+fun testCollection(items: List<MediaItem>) {
+    val urlList : List<String> = items
+        .filter { it.type == MediaItem.Type.PHOTO }
+        .sortedBy { it.title }
+        .map { it.thumbUrl }
+
+    // mutable list
+    val mutableList: MutableList<Int> = mutableListOf(2, 3, 5)
+    mutableList.add(5)
+    mutableList.remove(2)
+}
