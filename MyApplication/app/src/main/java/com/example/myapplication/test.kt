@@ -53,3 +53,11 @@ fun testCollection(items: List<MediaItem>) {
     mutableList.add(5)
     mutableList.remove(2)
 }
+
+fun testInfixFunctions() {
+    val sum = 9 addition 10
+    val pair = Pair(10, "Ten")
+    val pair2 = 10 to "Ten"
+}
+
+infix fun Int.addition(other: Int) = this + other
