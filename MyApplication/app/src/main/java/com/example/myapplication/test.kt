@@ -43,7 +43,7 @@ fun testMainLambdaCallback() {
 }
 
 fun testCollection(items: List<MediaItem>) {
-    val urlList : List<String> = items
+    val urlList: List<String> = items
         .filter { it.type == MediaItem.Type.PHOTO }
         .sortedBy { it.title }
         .map { it.thumbUrl }
@@ -61,3 +61,15 @@ fun testInfixFunctions() {
 }
 
 infix fun Int.addition(other: Int) = this + other
+
+// nullability
+fun testNull() {
+    val myInt: Int? = null
+
+    // operator elvis ?:
+    val notNullInt: Int = myInt ?: 0
+    val myLong: Long = myInt?.toLong() ?: 0L
+    // the next sentence can be replace with the above sentence
+    val myLong1: Long = if (myInt != null) myInt.toLong() else 0L
+
+}
