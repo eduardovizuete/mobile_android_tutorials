@@ -7,10 +7,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
 
-    val adapter = MediaAdapter() { (title) -> toast(title) }
+    val adapter = MediaAdapter() { navigateToDetail(it) }
 
     val recyclerView by lazy { findViewById(R.id.recycler) as RecyclerView }
 
@@ -37,6 +38,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         return true
+    }
+
+    private fun navigateToDetail(item: MediaItem) {
+        startActivity<DetailActivity>(DetailActivity.ID to item.id)
     }
 
 }
