@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val adapter = MediaAdapter(MediaProvider.data) { (title) -> toast(title) }
+    val adapter = MediaAdapter() { (title) -> toast(title) }
 
     val recyclerView by lazy { findViewById(R.id.recycler) as RecyclerView }
 
@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         recyclerView.adapter = adapter
+        MediaProvider.dataAsync { adapter.items = it }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -26,8 +27,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        adapter.items = MediaProvider.data.let { media ->
-            when (item.itemId) {
+        MediaProvider.dataAsync { media ->
+            adapter.items = when (item.itemId) {
                 R.id.filter_all -> media
                 R.id.filter_photos -> media.filter { it.type == MediaItem.Type.PHOTO }
                 R.id.filter_videos -> media.filter { it.type == MediaItem.Type.VIDEO }

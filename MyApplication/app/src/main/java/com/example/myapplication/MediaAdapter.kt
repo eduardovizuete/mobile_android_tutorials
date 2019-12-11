@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_media_item.view.*
 import kotlin.properties.Delegates
 
-class MediaAdapter  (items: List<MediaItem>, val listener: (MediaItem) -> Unit) :
+class MediaAdapter  (items: List<MediaItem> = emptyList(), val listener: (MediaItem) -> Unit) :
     RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
     var items: List<MediaItem> by Delegates.observable(items) { _, _, _ ->
