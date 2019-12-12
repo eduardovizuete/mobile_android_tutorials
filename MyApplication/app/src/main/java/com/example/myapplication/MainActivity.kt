@@ -4,31 +4,38 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import org.jetbrains.anko.startActivity
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
+
+    private lateinit var job: Job
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    private lateinit var job: Job
-
-    private val adapter = MediaAdapter() { navigateToDetail(it) }
-
-    val recyclerView by lazy { findViewById(R.id.recycler) as RecyclerView }
+    private val adapter = MediaAdapter { itemClicked(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         job = Job()
 
-        recyclerView.adapter = adapter
-        MediaProvider.dataAsync { updateData(it) }
+        recycler.adapter = adapter
+        progress.show()
+
+        loadContent()
     }
+
+    private fun loadContent(filter: Filter = Filter.None) = launch {
+        val cats = async(Dispatchers.IO) { MediaProvider.dataSync("cats") }
+        val nature = async(Dispatchers.IO) { MediaProvider.dataSync("nature") }
+        updateData(cats.await() + nature.await(), filter)
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
@@ -38,19 +45,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val filter = when (item.itemId) {
             R.id.filter_all -> Filter.None
-            R.id.filter_photos -> Filter.ByType(MediaItem.Type.PHOTO)
-            R.id.filter_videos -> Filter.ByType(MediaItem.Type.VIDEO)
+            R.id.filter_photos -> Filter.ByMediaType(MediaItem.Type.PHOTO)
+            R.id.filter_videos -> Filter.ByMediaType(MediaItem.Type.VIDEO)
             else -> null
         }
 
         filter?.let {
-            launch {
-                val media1 = async(Dispatchers.IO, CoroutineStart.LAZY) { MediaProvider.dataSync("cats") }
-                val media2 = async(Dispatchers.IO) { MediaProvider.dataSync("nature") }
-                val media3 = useAsync()
-                updateData(media1.await() + media2.await(), filter)
-            }
-
+            progress.show()
+            loadContent(filter)
             return true
         }
 
@@ -70,14 +72,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun updateData(media: List<MediaItem>, filter: Filter = Filter.None) {
-        adapter.items = when (filter) {
+        adapter.data = when (filter) {
             Filter.None -> media
-            is Filter.ByType -> media.filter { it.type == filter.type }
+            is Filter.ByMediaType -> media.filter { it.type == filter.type }
         }
+        progress.hide()
     }
 
-    private fun navigateToDetail(item: MediaItem) {
-        startActivity<DetailActivity>(DetailActivity.ID to item.id)
+    private fun itemClicked(it: MediaItem) {
+        startActivity<DetailActivity>(DetailActivity.EXTRA_ID to it.id)
     }
 
     override fun onDestroy() {
@@ -85,9 +88,4 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         super.onDestroy()
     }
 
-}
-
-sealed class Filter {
-    object None : Filter()
-    class ByType(val type: MediaItem.Type) : Filter()
 }

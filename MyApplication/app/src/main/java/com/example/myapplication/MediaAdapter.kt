@@ -8,41 +8,35 @@ import kotlin.properties.Delegates
 
 typealias Listener = (MediaItem) -> Unit
 
-class MediaAdapter  (items: List<MediaItem> = emptyList(), val listener: Listener) :
+class MediaAdapter(data: List<MediaItem> = emptyList(), private val listener: Listener) :
     RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
-    var items: List<MediaItem> by Delegates.observable(items) { _, _, _ ->
-        notifyDataSetChanged()
-    }
+    var data by Delegates.observable(data) { _, _, _ -> notifyDataSetChanged() }
 
-    // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        //val v = LayoutInflater.from(parent.context).inflate(R.layout.view_media_item, parent, false)
-        val v = parent.inflate(R.layout.view_media_item)
-        return ViewHolder(v)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(parent.inflate(R.layout.view_media_item), listener)
 
     // Replace the contents of a view (invoked by the layout manager)
     // Bind the content of the view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-        holder.bind(item)
-        holder.itemView.setOnClickListener { listener(item) }
+        holder.bind(data[position])
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = data.size
 
     // Provide a reference to the views for each data item
     // Each data item is an MediaItem.
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val listener: Listener) : RecyclerView.ViewHolder(view) {
 
         fun bind(item: MediaItem) = with(itemView) {
             media_title.text = item.title
             media_thumb.loadUrl(item.thumbUrl)
+            setOnClickListener { listener(item) }
+
             media_video_indicator.visibility = when (item.type) {
-                MediaItem.Type.VIDEO -> View.VISIBLE
                 MediaItem.Type.PHOTO -> View.GONE
+                MediaItem.Type.VIDEO -> View.VISIBLE
             }
         }
     }

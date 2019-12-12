@@ -1,29 +1,29 @@
 package com.example.myapplication
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.view_media_item.*
 
 class DetailActivity : AppCompatActivity() {
 
     companion object {
-        val ID = "DetailActivity:id"
+        const val EXTRA_ID = "DetailActivity:extraId"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        val id = intent.getIntExtra(ID, -1)
-
         MediaProvider.dataAsync { media ->
-            media.find { it.id == id }?.let { (_, title, thumbUrl, type) ->
-                supportActionBar?.title = title
-                detail_thumb.loadUrl(thumbUrl)
-                detail_video_indicator.visibility = when(type) {
+            val item = media.find { it.id == intent.getLongExtra(EXTRA_ID, -1) }
+
+            item?.let {
+                supportActionBar?.title = item.title
+
+                detail_thumb.loadUrl(item.thumbUrl)
+
+                detail_video_indicator.visibility = when (item.type) {
                     MediaItem.Type.PHOTO -> View.GONE
                     MediaItem.Type.VIDEO -> View.VISIBLE
                 }
