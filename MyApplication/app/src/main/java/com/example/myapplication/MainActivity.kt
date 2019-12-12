@@ -4,36 +4,20 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.*
-import org.jetbrains.anko.startActivity
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.resume
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 
-class MainActivity : AppCompatActivity(), CoroutineScope {
-
-    private lateinit var job: Job
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
+class MainActivity : AppCompatActivity(), MainPresenter.View {
 
     private val adapter = MediaAdapter { itemClicked(it) }
+    private val presenter = MainPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        job = Job()
 
         recycler.adapter = adapter
-        progress.show()
-
-        loadContent()
-    }
-
-    private fun loadContent(filter: Filter = Filter.None) = launch {
-        val cats = async(Dispatchers.IO) { MediaProvider.dataSync("cats") }
-        val nature = async(Dispatchers.IO) { MediaProvider.dataSync("nature") }
-        updateData(cats.await() + nature.await(), filter)
+        presenter.onCreate()
     }
 
 
@@ -51,41 +35,23 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
 
         filter?.let {
-            progress.show()
-            loadContent(filter)
+            presenter.filterClicked(filter)
             return true
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    // it is posible extract to suspend function
-    private suspend fun getData(type: String): List<MediaItem> = withContext(Dispatchers.IO) {
-        MediaProvider.dataSync(type)
+    override fun updateData(media: List<MediaItem>) {
+        adapter.data = media
     }
 
-    // transform old callback paradign callbacks to coroutines way - suspended functions
-    suspend fun useAsync(): List<MediaItem> = suspendCancellableCoroutine { continuation ->
-        MediaProvider.dataAsync { media ->
-            continuation.resume(media)
-        }
+    private fun itemClicked(item: MediaItem) {
+        presenter.itemClicked(item)
     }
 
-    private fun updateData(media: List<MediaItem>, filter: Filter = Filter.None) {
-        adapter.data = when (filter) {
-            Filter.None -> media
-            is Filter.ByMediaType -> media.filter { it.type == filter.type }
-        }
-        progress.hide()
-    }
-
-    private fun itemClicked(it: MediaItem) {
-        startActivity<DetailActivity>(DetailActivity.EXTRA_ID to it.id)
-    }
-
-    override fun onDestroy() {
-        job.cancel()
-        super.onDestroy()
-    }
+    override fun showProgress() = progress.show()
+    override fun hideProgress() = progress.hide()
+    override fun navigateTo(id: Long) = startActivity<DetailActivity>(DetailActivity.EXTRA_ID to id)
 
 }

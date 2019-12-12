@@ -1,33 +1,32 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_detail.*
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), DetailPresenter.View {
 
     companion object {
         const val EXTRA_ID = "DetailActivity:extraId"
     }
 
+    private val presenter = DetailPresenter(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        presenter.onCreate(intent.getLongExtra(EXTRA_ID, -1))
+    }
 
-        MediaProvider.dataAsync { media ->
-            val item = media.find { it.id == intent.getLongExtra(EXTRA_ID, -1) }
+    override fun setTitle(title: String) = run { supportActionBar?.title = title }
 
-            item?.let {
-                supportActionBar?.title = item.title
+    override fun setImage(url: String) = detail_thumb.loadUrl(url)
 
-                detail_thumb.loadUrl(item.thumbUrl)
-
-                detail_video_indicator.visibility = when (item.type) {
-                    MediaItem.Type.PHOTO -> View.GONE
-                    MediaItem.Type.VIDEO -> View.VISIBLE
-                }
-            }
+    override fun setDetailIndicatorVisible(visible: Boolean) = with(detail_video_indicator) {
+        if (visible) {
+            show()
+        } else {
+            hide()
         }
     }
 
