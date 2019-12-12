@@ -5,10 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
@@ -39,10 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         filter?.let {
             GlobalScope.launch(Dispatchers.Main) {
-                val media1 = withContext(Dispatchers.IO) { MediaProvider.dataSync("cats") }
-                // if the sentence above is too long, is posible to extract to suspend function, for instance getData
-                val media2 = getData("nature")
-                updateData(media1 + media2, filter)
+                val media1 = async(Dispatchers.IO, CoroutineStart.LAZY) { MediaProvider.dataSync("cats") }
+                val media2 = async(Dispatchers.IO) { MediaProvider.dataSync("nature") }
+                updateData(media1.await() + media2.await(), filter)
             }
 
             return true
