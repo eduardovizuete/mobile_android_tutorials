@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import org.jetbrains.anko.startActivity
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.resume
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
 
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             launch {
                 val media1 = async(Dispatchers.IO, CoroutineStart.LAZY) { MediaProvider.dataSync("cats") }
                 val media2 = async(Dispatchers.IO) { MediaProvider.dataSync("nature") }
+                val media3 = useAsync()
                 updateData(media1.await() + media2.await(), filter)
             }
 
@@ -58,6 +60,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     // it is posible extract to suspend function
     private suspend fun getData(type: String): List<MediaItem> = withContext(Dispatchers.IO) {
         MediaProvider.dataSync(type)
+    }
+
+    // transform old callback paradign callbacks to coroutines way - suspended functions
+    suspend fun useAsync(): List<MediaItem> = suspendCancellableCoroutine { continuation ->
+        MediaProvider.dataAsync { media ->
+            continuation.resume(media)
+        }
     }
 
     private fun updateData(media: List<MediaItem>, filter: Filter = Filter.None) {
