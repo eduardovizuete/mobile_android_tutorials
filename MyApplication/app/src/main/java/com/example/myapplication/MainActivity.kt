@@ -7,23 +7,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import org.jetbrains.anko.startActivity
+import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CoroutineScope {
 
-    val adapter = MediaAdapter() { navigateToDetail(it) }
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    private lateinit var job: Job
+
+    private val adapter = MediaAdapter() { navigateToDetail(it) }
 
     val recyclerView by lazy { findViewById(R.id.recycler) as RecyclerView }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        job = Job()
+
         recyclerView.adapter = adapter
-        MediaProvider.dataAsync { adapter.items = it }
+        MediaProvider.dataAsync { updateData(it) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -35,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         filter?.let {
-            GlobalScope.launch(Dispatchers.Main) {
+            launch {
                 val media1 = async(Dispatchers.IO, CoroutineStart.LAZY) { MediaProvider.dataSync("cats") }
                 val media2 = async(Dispatchers.IO) { MediaProvider.dataSync("nature") }
                 updateData(media1.await() + media2.await(), filter)
@@ -57,11 +65,15 @@ class MainActivity : AppCompatActivity() {
             Filter.None -> media
             is Filter.ByType -> media.filter { it.type == filter.type }
         }
-
     }
 
     private fun navigateToDetail(item: MediaItem) {
         startActivity<DetailActivity>(DetailActivity.ID to item.id)
+    }
+
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 
 }
