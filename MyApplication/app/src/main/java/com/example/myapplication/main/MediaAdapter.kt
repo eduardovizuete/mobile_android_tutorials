@@ -1,8 +1,12 @@
-package com.example.myapplication
+package com.example.myapplication.main
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.model.MediaItem
+import com.example.myapplication.R
+import com.example.myapplication.inflate
+import com.example.myapplication.loadUrl
 import kotlinx.android.synthetic.main.view_media_item.view.*
 import kotlin.properties.Delegates
 
@@ -14,7 +18,11 @@ class MediaAdapter(data: List<MediaItem> = emptyList(), private val listener: Li
     var data by Delegates.observable(data) { _, _, _ -> notifyDataSetChanged() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(parent.inflate(R.layout.view_media_item), listener)
+        ViewHolder(
+            parent.inflate(
+                R.layout.view_media_item
+            ), listener
+        )
 
     // Replace the contents of a view (invoked by the layout manager)
     // Bind the content of the view

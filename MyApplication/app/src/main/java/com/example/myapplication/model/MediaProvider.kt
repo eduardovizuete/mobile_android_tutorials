@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.model
 
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -20,7 +20,8 @@ object MediaProvider : Provider {
     override fun dataAsync(f: (List<MediaItem>) -> Unit) {
         doAsync {
             if (data.isEmpty()) {
-                data = dataSync("cats")
+                data =
+                    dataSync("cats")
             }
 
             uiThread {

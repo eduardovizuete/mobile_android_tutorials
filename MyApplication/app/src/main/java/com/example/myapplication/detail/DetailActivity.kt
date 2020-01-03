@@ -1,20 +1,28 @@
-package com.example.myapplication
+package com.example.myapplication.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.*
+import com.example.myapplication.detail.di.DetailModule
 import kotlinx.android.synthetic.main.activity_detail.*
+import javax.inject.Inject
 
-class DetailActivity : AppCompatActivity(), DetailPresenter.View {
+class DetailActivity : AppCompatActivity(),
+    DetailPresenter.View {
 
     companion object {
         const val EXTRA_ID = "DetailActivity:extraId"
     }
 
-    private val presenter = DetailPresenter(this)
+    private val component by lazy { app.component.plus(DetailModule(this)) }
+    @Inject
+    lateinit var presenter: DetailPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        component.inject(this)
+
         presenter.onCreate(intent.getLongExtra(EXTRA_ID, -1))
     }
 

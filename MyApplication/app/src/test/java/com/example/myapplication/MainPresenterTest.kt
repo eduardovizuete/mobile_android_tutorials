@@ -1,5 +1,8 @@
 package com.example.myapplication
 
+import com.example.myapplication.main.MainPresenter
+import com.example.myapplication.model.MediaItem
+import com.example.myapplication.model.Provider
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.mock

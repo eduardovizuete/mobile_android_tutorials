@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -34,5 +35,8 @@ inline fun <reified T : View> RecyclerView.ViewHolder.find(idRes: Int): T {
 }
 
 fun View.show() = run { visibility = View.VISIBLE }
-
 fun View.hide() = run { visibility = View.GONE }
+
+val Activity.app: App
+    get() = application as App
+

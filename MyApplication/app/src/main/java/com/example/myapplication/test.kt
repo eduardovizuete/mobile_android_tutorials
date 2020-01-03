@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import com.example.myapplication.model.MediaItem
+
 fun test() {
     val sum: (Int, Int) -> Int = { a, b -> a + b }
     val f1 = { a: Int, b: Int -> a + b }

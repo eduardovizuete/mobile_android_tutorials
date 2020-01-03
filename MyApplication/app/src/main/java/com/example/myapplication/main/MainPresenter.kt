@@ -1,6 +1,10 @@
-package com.example.myapplication
+package com.example.myapplication.main
 
-class MainPresenter(private val view: View, private val provider: Provider = MediaProvider) {
+import com.example.myapplication.model.Filter
+import com.example.myapplication.model.MediaItem
+import com.example.myapplication.model.Provider
+
+class MainPresenter(private val view: View, private val provider: Provider) {
 
     interface View {
         fun updateData(media: List<MediaItem>)
